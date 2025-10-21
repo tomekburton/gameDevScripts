@@ -6,7 +6,11 @@ public class movementScript : MonoBehaviour
 {
     public float speed = 5f;
     // Used to control sprinting 
-    public bool isSprinting = false;
+    public static bool isSprinting = false;
+    public static float sprintFactor = 1.5f;
+    // Used to control sneaking
+    public static bool isSneaking = false;
+    public static float sneakFactor = 3f;
     public float verticalMovement;
     public float horizontalMovement;
     public Rigidbody rb;
@@ -35,13 +39,14 @@ public class movementScript : MonoBehaviour
         movePlayer();
         jumpPlayer();
         sprintPlayer();
+        sneakPlayer();
     }
 
     void sprintPlayer()
     {
         if (Keyboard.current.leftCtrlKey.isPressed && !isSprinting)
         {
-            speed *= 1.5f;
+            speed *= sprintFactor;
             isSprinting = true;
         }
         else
@@ -49,11 +54,28 @@ public class movementScript : MonoBehaviour
             if (isSprinting == true)
             {
                 isSprinting = false;
-                speed /= 1.5f;
+                speed /= sprintFactor;
             }
         }
     }
-    
+
+    // Logic for Sneaking
+    void sneakPlayer()
+    {
+        if (Keyboard.current.leftShiftKey.isPressed && !isSneaking)
+        {
+            speed /= sneakFactor;
+            isSneaking = true;
+        }
+        else
+        {
+            if (isSneaking == true)
+            {
+                isSneaking = false;
+                speed *= sneakFactor;
+            }
+        }
+    }
 
     // Logic for jumping
     void jumpPlayer()
