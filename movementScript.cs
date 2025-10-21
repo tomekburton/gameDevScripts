@@ -1,9 +1,12 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class movementScript : MonoBehaviour
 {
     public float speed = 5f;
+    // Used to control sprinting 
+    public bool isSprinting = false;
     public float verticalMovement;
     public float horizontalMovement;
     public Rigidbody rb;
@@ -31,7 +34,26 @@ public class movementScript : MonoBehaviour
     {
         movePlayer();
         jumpPlayer();
+        sprintPlayer();
     }
+
+    void sprintPlayer()
+    {
+        if (Keyboard.current.leftCtrlKey.isPressed && !isSprinting)
+        {
+            speed *= 1.5f;
+            isSprinting = true;
+        }
+        else
+        {
+            if (isSprinting == true)
+            {
+                isSprinting = false;
+                speed /= 1.5f;
+            }
+        }
+    }
+    
 
     // Logic for jumping
     void jumpPlayer()
