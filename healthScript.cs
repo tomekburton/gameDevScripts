@@ -7,14 +7,6 @@ public class healthScript : MonoBehaviour
     public static float playerMaxHealth = 100;
     public static bool isPlayerAlive = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-
-    void Awake()
-    {
-        // if (player == null)
-        // {
-        //     Debug.LogError("healthScript: Player GameObject not assigned in the Inspector", this);
-        // }
-    }
     void Start()
     {
         
@@ -26,11 +18,15 @@ public class healthScript : MonoBehaviour
 
     }
     
+    // Method to update Health and kill player from anywhere
     public static float updateHealth(float amount)
     {
-        GameObject player = storeSelf.player;
+        GameObject player = storeSelf.player; // Reference from storeSelf.cs
 
-        playerHealth = math.clamp(playerHealth + amount, 0f, playerMaxHealth);
+        // Player health stays between 0 and max health
+        playerHealth = math.clamp(playerHealth + amount, 0f, playerMaxHealth); 
+        
+        // Kills player when health = 0 - Should return player to a different scene possibly
         if (playerHealth <= 0f)
         {
             Debug.Log("You are Dead");

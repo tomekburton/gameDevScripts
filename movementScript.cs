@@ -82,8 +82,7 @@ public class movementScript : MonoBehaviour
     {
         if (Keyboard.current.spaceKey.isPressed && isGrounded)
         {
-            // Debug.Log("Is grounded is: ");
-            // Debug.Log(isGrounded);
+
             isGrounded = false;
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
         }

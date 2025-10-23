@@ -15,8 +15,14 @@ public class goldCounter : MonoBehaviour
         
     }
 
-    public static void changeGoldAmount(int amount)
+    public static bool changeGoldAmount(int amount)
     {
         gold += amount;
+        if (gold < 0)
+        {
+            gold -= amount;
+            return false;
+        }
+        return true;
     }
 }
