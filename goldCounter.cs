@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class goldCounter : MonoBehaviour
 {
@@ -12,7 +13,15 @@ public class goldCounter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // For testing only remove after 
+        if (Keyboard.current.leftBracketKey.isPressed)
+        {
+            changeGoldAmount(-1);
+        }
+        if (Keyboard.current.rightBracketKey.isPressed)
+        {
+            changeGoldAmount(1);
+        }
     }
 
     public static bool changeGoldAmount(int amount)
