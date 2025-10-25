@@ -6,6 +6,8 @@ public class cameraSetup : MonoBehaviour
 
     public Camera mainCamera;
     public Camera miniMapCamera;
+
+    public RenderTexture miniMapRenderTexture;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -29,8 +31,8 @@ public class cameraSetup : MonoBehaviour
     void setupMiniMapCamera()
     {
         miniMapCamera.depth = 1;
-        miniMapCamera.rect = new Rect(0.75f, 0f, 0.25f, 0.25f);
-
+        // miniMapCamera.rect = new Rect(0.75f, 0f, 0.25f, 0.25f);
+        miniMapCamera.targetTexture = miniMapRenderTexture; // Circular Texture configured in the hierarchy
         miniMapCamera.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
 
     }
