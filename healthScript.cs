@@ -28,10 +28,14 @@ public class healthScript : MonoBehaviour
     }
     
     // Method to update Health and kill player from anywhere. Use this method and not simply playerHealth -= 1
-    public static float updateHealth(float amount)
+    // Don't need to include armourAffected if you want to keep it true
+    public static float updateHealth(float amount, bool armourAffected = true)
     {
         GameObject player = storeSelf.player; // Reference from storeSelf.cs
-
+        if (armourAffected)
+        {
+            amount *= armourController.armourAmount;
+        }
         // Player health stays between 0 and max health
         playerHealth = math.clamp(playerHealth + amount, 0f, playerMaxHealth); 
 
