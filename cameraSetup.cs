@@ -11,6 +11,7 @@ public class cameraSetup : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Set main Camera tag to "MainCamera"
         setupMainCamera();
         setupMiniMapCamera();
     }

@@ -100,7 +100,7 @@ public class movementScript : MonoBehaviour
     public void OnCollisionEnter(Collision collision)
     {
 
-        Debug.Log("Collided");
+        // Debug.Log("Collided");
         // Prevents Double Jumps
         isGrounded = true;
 
