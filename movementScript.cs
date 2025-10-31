@@ -10,7 +10,7 @@ public class movementScript : MonoBehaviour
     public static float sprintFactor = 1.5f;
     // Used to control sneaking
     public static bool isSneaking = false;
-    public static float sneakFactor = 3f;
+    public static float sneakFactor = 0.5f;
     public float verticalMovement;
     public float horizontalMovement;
     public Rigidbody rb;
@@ -19,7 +19,7 @@ public class movementScript : MonoBehaviour
     public bool isGrounded;
 
     // How high the player can jump
-    public float jumpForce;
+    public float jumpForce = 5f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -64,7 +64,7 @@ public class movementScript : MonoBehaviour
     {
         if (Keyboard.current.leftShiftKey.isPressed && !isSneaking)
         {
-            speed /= sneakFactor;
+            speed *= sneakFactor;
             isSneaking = true;
         }
         else
@@ -72,7 +72,7 @@ public class movementScript : MonoBehaviour
             if (isSneaking == true)
             {
                 isSneaking = false;
-                speed *= sneakFactor;
+                speed /= sneakFactor;
             }
         }
     }

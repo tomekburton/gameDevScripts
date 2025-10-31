@@ -1,5 +1,8 @@
+using System;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class armourerInteraction : MonoBehaviour
 {
@@ -10,11 +13,16 @@ public class armourerInteraction : MonoBehaviour
 
     public GameObject dialoguePanel;
     public TextMeshProUGUI armourerShopInfo;
-    public TextMeshProUGUI armourerBuyButton;
+    public GameObject armourerBuyButton;
 
+    public TextMeshProUGUI armourerSaleInfo;
+
+    [Header("Parent Object")]
     public GameObject armourerGUI;
 
     public GameObject rayPoint;
+
+    private bool showingUI = false;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -36,12 +44,30 @@ public class armourerInteraction : MonoBehaviour
         {
             if (IsVisibleToCam(mainCam) && isFacingCamera(mainCam))
             {
-                Debug.Log("Showing cast");
+                // Debug.Log("Showing cast");
                 showUI();
-            } 
-        } else
+            }
+        }
+        else
         {
             armourerGUI.SetActive(false);
+            armourerSaleInfo.text = "";
+            showingUI = false;
+        }
+        
+        if (showingUI)
+        {
+            if (Keyboard.current.bKey.wasPressedThisFrame)
+            {
+                if (goldCounter.changeGoldAmount(-50))
+                {
+                    armourController.changeArmourAmount(5f);
+                    armourerSaleInfo.text = "Added 5 armour, you now take less damage!";            
+                } else
+                {
+                    armourerSaleInfo.text = "Not enough Gold to buy armour";
+                }
+            }
         }
     }
 
@@ -78,8 +104,8 @@ public class armourerInteraction : MonoBehaviour
         Vector3 origin = rayPoint.transform.position;
         int layerMask = ~LayerMask.GetMask("Player", "Ignore Raycast", "NPC"); // for example
         // True if no obstacles between you and the camera
-        Debug.Log("Shooting something");
-        Debug.Log(!Physics.Raycast(origin, directionToCamera, directionToCamera.magnitude, layerMask));
+        // Debug.Log("Shooting something");
+        // Debug.Log(!Physics.Raycast(origin, directionToCamera, directionToCamera.magnitude, layerMask));
         return !Physics.Raycast(origin, directionToCamera, directionToCamera.magnitude, layerMask);
 
         // if (Physics.Raycast(ray, out RaycastHit hit, directionToCamera.magnitude, layerMask))
@@ -97,5 +123,37 @@ public class armourerInteraction : MonoBehaviour
     void showUI()
     {
         armourerGUI.SetActive(true);
+        showingUI = true;
+    }
+
+    private void armourBox()
+    {
+        float armourBoxWidth = Screen.width * 0.2f;
+        float armourBoxHeight = Screen.height * 0.08f;
+        float armourBoxX = Screen.width * 0.75f;  // Distance from left edge
+        float armourBoxY = Screen.height * 0.05f; // Distance from top edge
+
+        // Armour Texture
+        Texture2D armourTexture = new Texture2D(1, 1);
+        armourTexture.SetPixel(0, 0, Color.darkGray);
+        armourTexture.Apply();
+
+        GUI.DrawTexture(new Rect(armourBoxX, armourBoxY, armourBoxWidth, armourBoxHeight), armourTexture);
+
+        // Label
+        GUIStyle textstyle = new GUIStyle(GUI.skin.label);
+        textstyle.fontSize = Mathf.RoundToInt(Screen.height * 0.04f);
+        textstyle.alignment = TextAnchor.MiddleCenter;
+        textstyle.fontStyle = FontStyle.Italic;
+
+        GUI.Label(new Rect(armourBoxX, armourBoxY, armourBoxWidth, armourBoxHeight), "Armour: " + Math.Round(armourController.armourAmount, 2), textstyle);
+    }
+
+    void OnGUI()
+    {
+        if (showingUI)
+        {
+            armourBox();
+        }
     }
 }

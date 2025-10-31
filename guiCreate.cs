@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -49,7 +50,7 @@ public class guiCreate : MonoBehaviour
         textStyle.normal.textColor = Color.white;
         textStyle.fontStyle = FontStyle.Italic;
     
-        GUI.Label(new Rect(healthBarX, healthBarY, healthBarWidth, healthBarHeight), healthScript.playerHealth + " / " + healthScript.playerMaxHealth, textStyle);
+        GUI.Label(new Rect(healthBarX, healthBarY, healthBarWidth, healthBarHeight), Math.Round(healthScript.playerHealth, 1) + " / " + healthScript.playerMaxHealth, textStyle);
     }
 
     // Handles logic of showing amount of gold - To change visuals
